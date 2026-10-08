@@ -1,0 +1,1767 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #16090d;
+    color: #f8e8df;
+    font-family: "Cormorant Garamond", serif;
+    overflow-x: hidden;
+}
+
+button {
+    font-family: inherit;
+}
+
+.scene {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* =========================================
+   AMBIENT BACKGROUND
+========================================= */
+
+.ambient-lights {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(164, 48, 61, .10), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(214, 155, 67, .07), transparent 30%);
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 101;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #e7b86b;
+    opacity: .45;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+
+    from {
+        transform: translateY(105vh);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: .5;
+    }
+
+    80% {
+        opacity: .4;
+    }
+
+    to {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
+}
+
+
+/* =========================================
+   OPENING
+========================================= */
+
+.opening-scene {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at center,
+        #42151d 0%,
+        #210b11 45%,
+        #0c0507 100%);
+}
+
+.opening-content {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.opening-subtitle {
+    font-family: "Dancing Script", cursive;
+    color: #dcae72;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 8px;
+}
+
+.opening-content h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 35px;
+}
+
+
+/* Roses */
+
+.rose {
+    position: absolute;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    filter: drop-shadow(0 0 12px rgba(130, 20, 30, .7));
+    animation: roseFloat 5s ease-in-out infinite;
+}
+
+.rose-1 {
+    left: 8%;
+    top: 20%;
+}
+
+.rose-2 {
+    right: 9%;
+    top: 17%;
+    animation-delay: 1s;
+}
+
+.rose-3 {
+    left: 15%;
+    bottom: 12%;
+    animation-delay: 2s;
+}
+
+.rose-4 {
+    right: 15%;
+    bottom: 10%;
+    animation-delay: 3s;
+}
+
+@keyframes roseFloat {
+
+    0%,100% {
+        transform: translateY(0) rotate(-4deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(4deg);
+    }
+}
+
+
+/* Candles */
+
+.candle {
+    position: absolute;
+    width: 20px;
+    height: 75px;
+    background: linear-gradient(to right, #ead9bd, #fff4d9, #c9a77b);
+    border-radius: 5px 5px 3px 3px;
+    bottom: 13%;
+}
+
+.candle span {
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    background: #ffc85c;
+    border-radius: 50% 50% 50% 50%;
+    top: -25px;
+    left: 3px;
+    filter: blur(2px);
+    animation: flame 1s infinite alternate;
+}
+
+@keyframes flame {
+
+    from {
+        transform: scale(.85) translateX(-2px);
+    }
+
+    to {
+        transform: scale(1.1) translateX(2px);
+    }
+}
+
+.candle-1 {
+    left: 26%;
+}
+
+.candle-2 {
+    right: 26%;
+    bottom: 16%;
+}
+
+.candle-3 {
+    right: 13%;
+    bottom: 30%;
+    transform: scale(.7);
+}
+
+
+/* Envelope */
+
+.envelope {
+    width: min(420px, 80vw);
+    height: 280px;
+    position: relative;
+    margin: auto;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.envelope-shadow {
+    position: absolute;
+    width: 90%;
+    height: 40px;
+    bottom: -20px;
+    left: 5%;
+    background: rgba(0,0,0,.6);
+    filter: blur(15px);
+}
+
+.envelope-back,
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #941e2d, #4d0b16);
+    border-radius: 5px;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.5),
+        inset 0 0 30px rgba(255,255,255,.05);
+}
+
+.envelope-front {
+    clip-path: polygon(0 35%, 50% 72%, 100% 35%, 100% 100%, 0 100%);
+    z-index: 5;
+}
+
+.envelope-flap {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #aa2838, #5e0e1b);
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+    transform-origin: top;
+    z-index: 7;
+    transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+}
+
+.envelope-paper {
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    background: #f5e5c9;
+    color: #542b26;
+    left: 12.5%;
+    top: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Dancing Script", cursive;
+    font-size: 1.6rem;
+    z-index: 3;
+    transition: transform 1.5s ease;
+}
+
+.seal {
+    position: absolute;
+    width: 68px;
+    height: 68px;
+    border: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #d23d4d, #720e1d 70%);
+    color: #f9d8a1;
+    font-size: 25px;
+    z-index: 10;
+    left: calc(50% - 34px);
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow:
+        0 0 0 5px rgba(120,15,30,.4),
+        0 0 25px rgba(211,65,76,.45);
+    cursor: pointer;
+    transition: all .4s ease;
+}
+
+.seal:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+}
+
+.envelope.open .envelope-paper {
+    transform: translateY(-120px);
+}
+
+.envelope.open .seal {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.click-hint {
+    margin-top: 25px;
+    opacity: .55;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   BIRTHDAY REVEAL
+========================================= */
+
+.birthday-scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background:
+        radial-gradient(circle,
+        #631d28 0%,
+        #2a0c14 45%,
+        #100609 100%);
+}
+
+.golden-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(210, 153, 70, .12);
+    filter: blur(80px);
+}
+
+.birthday-content {
+    position: relative;
+    z-index: 5;
+}
+
+.small-reveal {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.6rem;
+    color: #dcb171;
+    opacity: 0;
+    animation: revealUp 1s 1s forwards;
+}
+
+.birthday-title {
+    margin: 25px 0;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    letter-spacing: 5px;
+}
+
+.birthday-title span {
+    font-size: clamp(2rem, 7vw, 5rem);
+}
+
+.birthday-title strong {
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    color: #dca85f;
+    text-shadow:
+        0 0 10px rgba(220,168,95,.4),
+        0 0 40px rgba(220,168,95,.3);
+    animation: birthdayGlow 2s infinite alternate;
+}
+
+@keyframes birthdayGlow {
+
+    from {
+        text-shadow:
+            0 0 10px rgba(220,168,95,.2);
+    }
+
+    to {
+        text-shadow:
+            0 0 15px rgba(220,168,95,.8),
+            0 0 50px rgba(220,168,95,.4);
+    }
+}
+
+.spark-line {
+    width: 100px;
+    height: 1px;
+    background: #dca85f;
+    margin: 20px auto;
+}
+
+.birthday-message {
+    font-size: 1.4rem;
+    line-height: 1.7;
+    color: #e7d0c3;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.continue-btn {
+    margin-top: 45px;
+    padding: 14px 25px;
+    border: 1px solid rgba(220,174,114,.5);
+    border-radius: 40px;
+    background: rgba(255,255,255,.04);
+    color: #f5dfcc;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .4s;
+    backdrop-filter: blur(10px);
+}
+
+.continue-btn span {
+    margin-left: 10px;
+}
+
+.continue-btn:hover {
+    background: rgba(220,174,114,.15);
+    transform: translateY(-4px);
+}
+
+
+/* =========================================
+   MEMORIES
+========================================= */
+
+.memories-scene {
+    min-height: 125vh;
+    padding: 90px 5% 120px;
+
+    background:
+        linear-gradient(rgba(29,13,17,.9), rgba(29,13,17,.94)),
+        radial-gradient(circle at center, #6d2831, #1c0a0e);
+}
+
+.section-heading {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.eyebrow {
+    letter-spacing: 5px;
+    font-size: .75rem;
+    color: #d5a86d;
+}
+
+.section-heading h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 400;
+    margin: 12px 0;
+}
+
+.section-heading p {
+    font-family: "Dancing Script", cursive;
+    color: #cfae9c;
+    font-size: 1.5rem;
+}
+
+.memory-board {
+    max-width: 1050px;
+    min-height: 650px;
+    margin: 50px auto 0;
+    position: relative;
+}
+
+.memory-photo {
+    position: absolute;
+    background: #ead9c4;
+    padding: 12px 12px 35px;
+    box-shadow:
+        0 25px 40px rgba(0,0,0,.45),
+        0 5px 10px rgba(0,0,0,.25);
+    transition: transform .7s cubic-bezier(.2,.8,.2,1);
+    opacity: 0;
+}
+
+.memory-photo.visible {
+    opacity: 1;
+    animation: photoAppear .9s forwards;
+}
+
+@keyframes photoAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(.85) rotate(0deg);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.memory-photo:hover {
+    z-index: 30;
+    transform: scale(1.08) rotate(0deg) !important;
+}
+
+.photo-inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #3b1d21;
+}
+
+.memory-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-a {
+    width: 250px;
+    height: 300px;
+    left: 4%;
+    top: 70px;
+    transform: rotate(-7deg);
+}
+
+.photo-b {
+    width: 230px;
+    height: 280px;
+    left: 27%;
+    top: 10px;
+    transform: rotate(4deg);
+}
+
+.photo-c {
+    width: 280px;
+    height: 220px;
+    right: 26%;
+    top: 90px;
+    transform: rotate(-3deg);
+}
+
+.photo-d {
+    width: 230px;
+    height: 290px;
+    right: 3%;
+    top: 20px;
+    transform: rotate(7deg);
+}
+
+.photo-e {
+    width: 260px;
+    height: 230px;
+    left: 17%;
+    bottom: 40px;
+    transform: rotate(5deg);
+}
+
+.photo-f {
+    width: 250px;
+    height: 260px;
+    right: 10%;
+    bottom: 15px;
+    transform: rotate(-6deg);
+}
+
+.memory-note {
+    position: absolute;
+    padding: 18px 20px;
+    background: #ead6b4;
+    color: #633d36;
+    font-family: "Dancing Script", cursive;
+    font-size: 1.25rem;
+    box-shadow: 0 12px 20px rgba(0,0,0,.25);
+    z-index: 20;
+}
+
+.note-one {
+    left: 3%;
+    bottom: 0;
+    transform: rotate(-8deg);
+}
+
+.note-two {
+    right: 2%;
+    top: 320px;
+    transform: rotate(5deg);
+}
+
+.film-strip {
+    position: absolute;
+    width: 600px;
+    height: 70px;
+    background: #171014;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%) rotate(-3deg);
+    z-index: 1;
+    display: flex;
+    gap: 25px;
+    padding: 14px 20px;
+}
+
+.film-strip span {
+    width: 70px;
+    height: 42px;
+    background: #33252a;
+    border: 2px solid #8b6b63;
+}
+
+.board-flower,
+.board-rose {
+    position: absolute;
+    font-size: 4rem;
+    z-index: 25;
+}
+
+.board-flower {
+    left: 48%;
+    top: 55%;
+}
+
+.board-rose {
+    right: 18%;
+    bottom: 5%;
+}
+
+
+/* Second board */
+
+.photo-g {
+    width: 240px;
+    height: 300px;
+    left: 2%;
+    top: 70px;
+    transform: rotate(6deg);
+}
+
+.photo-h {
+    width: 270px;
+    height: 230px;
+    left: 24%;
+    top: 15px;
+    transform: rotate(-4deg);
+}
+
+.photo-i {
+    width: 220px;
+    height: 280px;
+    left: 50%;
+    top: 70px;
+    transform: rotate(5deg);
+}
+
+.photo-j {
+    width: 250px;
+    height: 230px;
+    right: 2%;
+    top: 15px;
+    transform: rotate(-7deg);
+}
+
+.photo-k {
+    width: 230px;
+    height: 270px;
+    left: 15%;
+    bottom: 10px;
+    transform: rotate(-5deg);
+}
+
+.photo-l {
+    width: 270px;
+    height: 230px;
+    left: 40%;
+    bottom: 0;
+    transform: rotate(3deg);
+}
+
+.photo-m {
+    width: 210px;
+    height: 260px;
+    right: 8%;
+    bottom: 20px;
+    transform: rotate(7deg);
+}
+
+.note-three {
+    left: 35%;
+    top: 320px;
+    transform: rotate(-7deg);
+}
+
+.note-four {
+    right: 23%;
+    bottom: 250px;
+    transform: rotate(6deg);
+}
+
+.flower-two {
+    left: 8%;
+    bottom: 5%;
+}
+
+.rose-five {
+    right: 10%;
+    top: 40%;
+}
+
+
+/* =========================================
+   LETTER
+========================================= */
+
+.letter-scene {
+    min-height: 150vh;
+    padding: 100px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at center, #6b4030, #24100e 70%);
+}
+
+.letter-surround {
+    position: relative;
+    width: min(900px, 95vw);
+}
+
+.old-letter {
+    position: relative;
+    width: 100%;
+    padding: clamp(45px, 8vw, 90px);
+
+    background:
+        linear-gradient(rgba(245,225,190,.92), rgba(226,198,154,.95)),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 4px,
+            rgba(80,50,30,.04) 5px
+        );
+
+    color: #51342d;
+
+    box-shadow:
+        0 40px 70px rgba(0,0,0,.5),
+        inset 0 0 80px rgba(113,71,40,.13);
+
+    clip-path: polygon(
+        1% 2%,
+        98% 0%,
+        100% 6%,
+        98% 20%,
+        100% 37%,
+        97% 55%,
+        100% 72%,
+        98% 98%,
+        80% 96%,
+        62% 100%,
+        43% 97%,
+        25% 100%,
+        3% 97%,
+        0% 80%,
+        2% 60%,
+        0% 40%,
+        2% 20%
+    );
+}
+
+.letter-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Dancing Script", cursive;
+    font-size: 1.5rem;
+    color: #754b40;
+}
+
+.old-letter h2 {
+    text-align: center;
+    font-family: "Dancing Script", cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 500;
+    margin: 30px 0 45px;
+    color: #633b32;
+}
+
+.letter-body {
+    font-size: 1.3rem;
+    line-height: 2;
+}
+
+.letter-body p {
+    margin-bottom: 25px;
+}
+
+.letter-sign {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.6rem;
+    text-align: right;
+    margin-top: 50px;
+}
+
+.letter-sign span {
+    font-size: 1.3rem;
+}
+
+.letter-doodle {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1.3rem;
+    color: #9a624c;
+}
+
+.letter-flower {
+    position: absolute;
+    font-size: 5rem;
+    z-index: 10;
+}
+
+.flower-left {
+    left: -70px;
+    top: 10%;
+}
+
+.flower-right {
+    right: -70px;
+    bottom: 12%;
+}
+
+.letter-candle {
+    position: absolute;
+    width: 22px;
+    height: 80px;
+    background: #f1dfc2;
+    bottom: 5%;
+    z-index: 15;
+}
+
+.letter-candle span {
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    background: #ffc45c;
+    border-radius: 50%;
+    top: -24px;
+    left: 4px;
+    filter: blur(2px);
+}
+
+.candle-left {
+    left: -100px;
+}
+
+.candle-right {
+    right: -100px;
+}
+
+
+/* =========================================
+   SORRY
+========================================= */
+
+.sorry-scene {
+    min-height: 120vh;
+    padding: 100px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at center, #452028, #13070b 75%);
+}
+
+.sorry-glow {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background: rgba(140,48,58,.18);
+    filter: blur(100px);
+}
+
+.sorry-content {
+    position: relative;
+    z-index: 5;
+    width: min(1000px, 95vw);
+}
+
+.sorry-content h2 {
+    font-family: "Dancing Script", cursive;
+    font-size: clamp(4rem, 10vw, 7rem);
+    color: #e2b38e;
+    margin: 20px 0 50px;
+}
+
+.sorry-card {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+.sorry-photo {
+    height: 500px;
+    transform: rotate(-5deg);
+    box-shadow: 0 30px 50px rgba(0,0,0,.5);
+}
+
+.sorry-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sorry-paper {
+    background: #e7d1aa;
+    color: #593b35;
+    padding: 55px;
+    text-align: left;
+    transform: rotate(3deg);
+    box-shadow: 0 25px 40px rgba(0,0,0,.4);
+}
+
+.sorry-paper p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.sorry-sign {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.7rem;
+    text-align: right;
+    margin-top: 30px;
+}
+
+
+/* =========================================
+   CUTE PAGE
+========================================= */
+
+.cute-scene {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at center, #8d3e51, #32101d 65%, #18070e);
+}
+
+.cute-content {
+    position: relative;
+    z-index: 5;
+}
+
+.tiny-heading {
+    letter-spacing: 4px;
+    color: #f0c69d;
+}
+
+.cute-content h2 {
+    font-family: "Dancing Script", cursive;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 500;
+    margin: 25px 0;
+}
+
+.cute-content h2 span {
+    color: #ffd0d9;
+    text-shadow: 0 0 20px rgba(255,180,200,.3);
+}
+
+.cute-photo-stack {
+    height: 260px;
+    width: 350px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.mini-photo {
+    position: absolute;
+    width: 170px;
+    height: 210px;
+    padding: 8px;
+    background: #f5e5d2;
+    box-shadow: 0 20px 30px rgba(0,0,0,.35);
+}
+
+.mini-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-one {
+    left: 0;
+    top: 20px;
+    transform: rotate(-10deg);
+}
+
+.mini-two {
+    left: 90px;
+    top: 0;
+    transform: rotate(3deg);
+    z-index: 2;
+}
+
+.mini-three {
+    right: 0;
+    top: 20px;
+    transform: rotate(10deg);
+}
+
+.cute-message {
+    font-family: "Dancing Script", cursive;
+    font-size: 2rem;
+    line-height: 1.4;
+}
+
+.cute-decor {
+    margin-top: 30px;
+    font-size: 1.5rem;
+}
+
+
+/* =========================================
+   FINAL
+========================================= */
+
+.final-scene {
+    min-height: 130vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at center,
+        #71323e,
+        #2b0c15 60%,
+        #100508);
+}
+
+.final-light {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: rgba(224,164,90,.12);
+    filter: blur(100px);
+}
+
+.final-content {
+    position: relative;
+    z-index: 5;
+    max-width: 1000px;
+    padding: 80px 20px;
+}
+
+.final-content h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 25px 0;
+}
+
+.final-content h2 span {
+    color: #e5b675;
+}
+
+.final-message {
+    max-width: 700px;
+    margin: auto;
+    font-size: 1.45rem;
+    line-height: 1.8;
+    color: #ead5c9;
+}
+
+.final-montage {
+    height: 330px;
+    max-width: 700px;
+    margin: 60px auto 40px;
+    position: relative;
+}
+
+.final-photo {
+    position: absolute;
+    width: 220px;
+    height: 270px;
+    padding: 9px;
+    background: #eee0cb;
+    box-shadow: 0 25px 40px rgba(0,0,0,.45);
+}
+
+.final-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.final-one {
+    left: 0;
+    top: 20px;
+    transform: rotate(-8deg);
+}
+
+.final-two {
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    top: 0;
+}
+
+.final-three {
+    right: 0;
+    top: 20px;
+    transform: rotate(8deg);
+}
+
+.final-roses {
+    font-size: 2rem;
+}
+
+.final-birthday {
+    font-family: "Dancing Script", cursive;
+    font-size: 3rem;
+    color: #f1c5ce;
+    margin-top: 20px;
+}
+
+.final-small {
+    margin-top: 20px;
+    opacity: .55;
+    font-size: .9rem;
+}
+
+
+/* =========================================
+   MUSIC BUTTON
+========================================= */
+
+.music-button {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(230,190,140,.5);
+    background: rgba(50,15,22,.75);
+    color: #e9bd80;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes revealUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .rose {
+        font-size: 2.5rem;
+    }
+
+    .candle {
+        transform: scale(.7);
+    }
+
+    .envelope {
+        width: 88vw;
+        height: 220px;
+    }
+
+    .memory-board {
+        min-height: 900px;
+        transform: scale(.82);
+        transform-origin: top center;
+        width: 120%;
+        margin-left: -10%;
+    }
+
+    .memories-scene {
+        min-height: 1200px;
+    }
+
+    .letter-scene {
+        min-height: 150vh;
+    }
+
+    .flower-left {
+        left: -15px;
+    }
+
+    .flower-right {
+        right: -15px;
+    }
+
+    .candle-left {
+        left: -20px;
+    }
+
+    .candle-right {
+        right: -20px;
+    }
+
+    .sorry-card {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .sorry-photo {
+        width: 70%;
+        height: 400px;
+    }
+
+    .sorry-paper {
+        transform: rotate(0deg);
+        padding: 35px 25px;
+    }
+
+    .final-montage {
+        transform: scale(.75);
+        width: 130%;
+        margin-left: -15%;
+    }
+
+    .final-content h2 {
+        font-size: 3.5rem;
+    }
+
+}
+
+
+/* Hide later scenes initially */
+
+.birthday-scene,
+.memories-scene,
+.letter-scene,
+.sorry-scene,
+.cute-scene,
+.final-scene {
+    display: none;
+}
+
+body.started .birthday-scene,
+body.started .memories-scene,
+body.started .letter-scene,
+body.started .sorry-scene,
+body.started .cute-scene,
+body.started .final-scene {
+    display: flex;
+}
+/* =========================================
+   UNIQUE BACKGROUND FOR EVERY PAGE
+   CONTENT / LAYOUT UNCHANGED
+========================================= */
+
+
+/* 1. OPENING — DARK RED ROSES + CANDLELIGHT */
+
+.opening-scene {
+    background:
+        radial-gradient(circle at 50% 45%,
+            rgba(130, 25, 42, 0.55),
+            transparent 35%),
+        radial-gradient(circle at 15% 80%,
+            rgba(175, 55, 65, 0.22),
+            transparent 30%),
+        radial-gradient(circle at 85% 20%,
+            rgba(210, 140, 65, 0.12),
+            transparent 25%),
+        linear-gradient(
+            135deg,
+            #090406,
+            #240810 45%,
+            #120509
+        );
+}
+
+
+/* 2. BIRTHDAY REVEAL — GOLDEN + WINE */
+
+.birthday-scene {
+    background:
+        radial-gradient(circle at center,
+            rgba(220, 165, 80, 0.22),
+            transparent 30%),
+        radial-gradient(circle at 20% 30%,
+            rgba(150, 35, 55, 0.35),
+            transparent 35%),
+        radial-gradient(circle at 80% 70%,
+            rgba(110, 20, 40, 0.35),
+            transparent 35%),
+        linear-gradient(
+            135deg,
+            #260911,
+            #541522,
+            #21070f
+        );
+}
+
+
+/* 3. MEMORIES PAGE 1 — VINTAGE CREAM + ROSE */
+
+#memories1 {
+    background:
+        radial-gradient(circle at 20% 20%,
+            rgba(190, 80, 85, 0.18),
+            transparent 30%),
+        radial-gradient(circle at 80% 80%,
+            rgba(210, 160, 90, 0.16),
+            transparent 30%),
+        linear-gradient(
+            135deg,
+            #2b1416,
+            #54252b 45%,
+            #291113
+        );
+}
+
+
+/* 4. MEMORIES PAGE 2 — DEEP BURGUNDY + BLUSH */
+
+#memories2 {
+    background:
+        radial-gradient(circle at 75% 20%,
+            rgba(225, 120, 135, 0.20),
+            transparent 28%),
+        radial-gradient(circle at 15% 75%,
+            rgba(190, 75, 80, 0.22),
+            transparent 30%),
+        linear-gradient(
+            145deg,
+            #18070d,
+            #471521 50%,
+            #2c0c15
+        );
+}
+
+
+/* 5. LETTER — OLD PAPER + WARM CANDLELIGHT */
+
+#letter {
+    background:
+        radial-gradient(circle at 15% 50%,
+            rgba(211, 148, 80, 0.25),
+            transparent 28%),
+        radial-gradient(circle at 85% 50%,
+            rgba(190, 65, 65, 0.18),
+            transparent 30%),
+        linear-gradient(
+            135deg,
+            #24100c,
+            #593022 45%,
+            #2a120e
+        );
+}
+
+
+/* 6. I'M SORRY — DARKER + RED ROSE GLOW */
+
+#sorry {
+    background:
+        radial-gradient(circle at 50% 45%,
+            rgba(150, 35, 55, 0.28),
+            transparent 32%),
+        radial-gradient(circle at 10% 90%,
+            rgba(220, 130, 75, 0.13),
+            transparent 25%),
+        linear-gradient(
+            135deg,
+            #0e0509,
+            #351019 50%,
+            #17070d
+        );
+}
+
+
+/* 7. CUTE PAGE — SOFT BLUSH + PINK */
+
+#cuteEnding {
+    background:
+        radial-gradient(circle at 50% 35%,
+            rgba(255, 180, 195, 0.20),
+            transparent 32%),
+        radial-gradient(circle at 15% 75%,
+            rgba(225, 100, 130, 0.20),
+            transparent 28%),
+        radial-gradient(circle at 85% 20%,
+            rgba(245, 180, 120, 0.14),
+            transparent 25%),
+        linear-gradient(
+            135deg,
+            #35101e,
+            #713447 48%,
+            #32101d
+        );
+}
+
+
+/* 8. FINAL PAGE — GOLDEN SUNSET + BURGUNDY */
+
+#finalPage {
+    background:
+        radial-gradient(circle at 50% 30%,
+            rgba(225, 170, 90, 0.23),
+            transparent 30%),
+        radial-gradient(circle at 20% 80%,
+            rgba(170, 55, 70, 0.20),
+            transparent 30%),
+        radial-gradient(circle at 85% 70%,
+            rgba(215, 120, 75, 0.15),
+            transparent 28%),
+        linear-gradient(
+            135deg,
+            #16070b,
+            #54202a 48%,
+            #210a10
+        );
+}
+/* =========================================================
+   ✨ AESTHETIC BACKGROUNDS — PASTE AT THE VERY END
+   Content / layout / buttons / animations are NOT changed
+   ========================================================= */
+
+/* Common */
+.scene {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.scene::before,
+.scene::after {
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+}
+
+/* =========================================================
+   🌹 1. OPENING PAGE — RED ROSES + CANDLES + LIGHTS
+   ========================================================= */
+
+.opening-scene {
+    background:
+        radial-gradient(circle at 50% 55%, rgba(255, 80, 100, .20), transparent 28%),
+        radial-gradient(circle at 8% 85%, rgba(255, 120, 80, .25), transparent 18%),
+        radial-gradient(circle at 92% 85%, rgba(255, 120, 80, .25), transparent 18%),
+        linear-gradient(135deg, #160207, #350914 45%, #090104);
+}
+
+.opening-scene::before {
+    content: "🌹 🌹 🌹";
+    inset: auto 0 15px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 48px;
+    letter-spacing: 18px;
+    filter: drop-shadow(0 0 15px rgba(255, 30, 60, .8));
+    opacity: .85;
+}
+
+.opening-scene::after {
+    content: "🕯️        🕯️        🕯️";
+    inset: auto 0 25px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 12px;
+    filter: drop-shadow(0 0 18px #ff9d55);
+    opacity: .9;
+}
+
+
+/* =========================================================
+   ✨ 2. BIRTHDAY PAGE — GOLDEN LIGHTS + SPARKLES
+   ========================================================= */
+
+.birthday-scene {
+    background:
+        radial-gradient(circle at 50% 45%, rgba(255, 210, 100, .30), transparent 25%),
+        radial-gradient(circle at 15% 20%, rgba(255, 80, 100, .22), transparent 20%),
+        radial-gradient(circle at 85% 20%, rgba(255, 80, 100, .22), transparent 20%),
+        linear-gradient(135deg, #24040d, #59121d, #160208);
+}
+
+.birthday-scene::before {
+    content: "✦   ✧   ✦   ✧   ✦   ✧   ✦   ✧   ✦";
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    color: #ffd875;
+    letter-spacing: 10px;
+    text-shadow:
+        0 0 8px #ffd875,
+        0 0 20px #ffb347,
+        0 0 35px #ff7b35;
+    animation: birthdayLights 2s infinite alternate;
+}
+
+@keyframes birthdayLights {
+    from {
+        opacity: .45;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(5px);
+    }
+}
+
+.birthday-scene::after {
+    content: "🌹                         🌹";
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    font-size: 55px;
+    text-align: center;
+    filter: drop-shadow(0 0 15px rgba(255, 30, 50, .8));
+}
+
+
+/* =========================================================
+   🌸 3. MEMORIES PAGE 1 — FLOWERS + FAIRY LIGHTS
+   ========================================================= */
+
+#memories1 {
+    background:
+        radial-gradient(circle at 10% 20%, rgba(255, 180, 150, .20), transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 80, 100, .20), transparent 25%),
+        linear-gradient(145deg, #291015, #4b2028, #17090e);
+}
+
+#memories1::before {
+    content: "🌸  🌹  🌷  🌹  🌸";
+    top: 18px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 15px;
+    filter: drop-shadow(0 0 10px rgba(255, 120, 150, .7));
+    opacity: .8;
+}
+
+#memories1::after {
+    content: "•  ✦  •  ✧  •  ✦  •  ✧  •  ✦  •";
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    color: #ffd98a;
+    letter-spacing: 10px;
+    text-shadow: 0 0 12px #ffbd5a;
+}
+
+
+/* =========================================================
+   🌹 4. MEMORIES PAGE 2 — ROSE CORNERS
+   ========================================================= */
+
+#memories2 {
+    background:
+        radial-gradient(circle at 0% 0%, rgba(190, 20, 55, .30), transparent 22%),
+        radial-gradient(circle at 100% 0%, rgba(190, 20, 55, .30), transparent 22%),
+        radial-gradient(circle at 0% 100%, rgba(255, 100, 130, .18), transparent 20%),
+        radial-gradient(circle at 100% 100%, rgba(255, 100, 130, .18), transparent 20%),
+        linear-gradient(135deg, #1d060d, #48121e, #20070f);
+}
+
+#memories2::before {
+    content: "🌹🌹";
+    top: 18px;
+    left: 20px;
+    font-size: 60px;
+    transform: rotate(-12deg);
+    filter: drop-shadow(0 0 14px rgba(255, 30, 70, .8));
+}
+
+#memories2::after {
+    content: "🌹🌹";
+    right: 20px;
+    bottom: 18px;
+    font-size: 60px;
+    transform: rotate(12deg);
+    filter: drop-shadow(0 0 14px rgba(255, 30, 70, .8));
+}
+
+
+/* =========================================================
+   💌 5. LETTER PAGE — VINTAGE PAPER + BOUQUET + CANDLES
+   ========================================================= */
+
+#letter {
+    background:
+        radial-gradient(circle at 5% 50%, rgba(255, 145, 75, .28), transparent 20%),
+        radial-gradient(circle at 95% 50%, rgba(255, 145, 75, .28), transparent 20%),
+        radial-gradient(circle at 50% 0%, rgba(255, 220, 150, .20), transparent 30%),
+        linear-gradient(120deg, #24120c, #593b28, #211109);
+}
+
+#letter::before {
+    content: "💐";
+    top: 20px;
+    left: 22px;
+    font-size: 85px;
+    transform: rotate(-12deg);
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,.5));
+    opacity: .9;
+}
+
+#letter::after {
+    content: "🕯️                         🕯️";
+    bottom: 22px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 34px;
+    letter-spacing: 25px;
+    filter: drop-shadow(0 0 18px #ff9b4a);
+}
+
+
+/* =========================================================
+   ❤️ 6. SORRY PAGE — DARK RED ROSE + CANDLELIGHT
+   ========================================================= */
+
+#sorry {
+    background:
+        radial-gradient(circle at 50% 40%, rgba(255, 60, 70, .16), transparent 28%),
+        radial-gradient(circle at 15% 85%, rgba(255, 130, 60, .25), transparent 18%),
+        radial-gradient(circle at 85% 85%, rgba(255, 130, 60, .25), transparent 18%),
+        linear-gradient(145deg, #100206, #3a0712, #090103);
+}
+
+#sorry::before {
+    content: "🌹";
+    top: 35px;
+    left: 30px;
+    font-size: 70px;
+    transform: rotate(-15deg);
+    filter: drop-shadow(0 0 18px rgba(255, 0, 50, .8));
+}
+
+#sorry::after {
+    content: "🕯️        🕯️";
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    filter: drop-shadow(0 0 20px #ff9d55);
+}
+
+
+/* =========================================================
+   💗 7. CUTE PAGE — PINK FLOWERS + SOFT LIGHTS
+   ========================================================= */
+
+#cuteEnding {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255, 170, 200, .45), transparent 20%),
+        radial-gradient(circle at 80% 20%, rgba(255, 210, 220, .35), transparent 20%),
+        radial-gradient(circle at 50% 90%, rgba(255, 100, 150, .30), transparent 25%),
+        linear-gradient(135deg, #3c111f, #8e3e58, #3d1225);
+}
+
+#cuteEnding::before {
+    content: "🌸 🌷 🌸 🌷 🌸";
+    top: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 35px;
+    letter-spacing: 12px;
+    filter: drop-shadow(0 0 12px rgba(255, 180, 210, .8));
+}
+
+#cuteEnding::after {
+    content: "♡  ✦  ♡  ✧  ♡  ✦  ♡";
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #ffe4ee;
+    font-size: 28px;
+    letter-spacing: 12px;
+    text-shadow: 0 0 15px #ffb5d0;
+}
+
+
+/* =========================================================
+   🌅 8. FINAL PAGE — GOLDEN EVENING + ROSES + LIGHTS
+   ========================================================= */
+
+#finalPage {
+    background:
+        radial-gradient(circle at 50% 25%, rgba(255, 210, 110, .32), transparent 28%),
+        radial-gradient(circle at 10% 80%, rgba(255, 80, 90, .25), transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 80, 90, .25), transparent 20%),
+        linear-gradient(160deg, #21070e, #6b2931 50%, #17070c);
+}
+
+#finalPage::before {
+    content: "🌹  🌹  🌹";
+    bottom: 18px;
+    left: 20px;
+    font-size: 55px;
+    letter-spacing: 8px;
+    transform: rotate(-8deg);
+    filter: drop-shadow(0 0 15px rgba(255, 40, 70, .8));
+}
+
+#finalPage::after {
+    content: "🌹  🌹  🌹";
+    bottom: 18px;
+    right: 20px;
+    font-size: 55px;
+    letter-spacing: 8px;
+    transform: rotate(8deg);
+    filter: drop-shadow(0 0 15px rgba(255, 40, 70, .8));
+}
